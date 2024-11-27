@@ -14,6 +14,7 @@ const emit = defineEmits(["add-student"]);
 
 function saveStudent() {
   emit("add-student", model.student);
+  model.student = {};
 }
 </script>
 

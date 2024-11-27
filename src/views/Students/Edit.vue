@@ -4,17 +4,20 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 
-const model = reactive({
+const props = defineProps({
   student: {
-    name: "",
-    course: "",
-    email: "",
-    phone: "",
+    type: Object,
+    default: () => ({
+      name: "",
+      course: "",
+      email: "",
+      phone: "",
+    }),
   },
 });
 
-onMounted(() => {
-  console.log(route.params.id);
+const model = reactive({
+  student: { ...props.student },
 });
 
 const getStudentData = (studentId) => {};

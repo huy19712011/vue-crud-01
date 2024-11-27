@@ -1,6 +1,7 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import Create from "./Create.vue";
+import Edit from "./Edit.vue";
 
 const students = ref([
   {
@@ -51,6 +52,34 @@ function addStudent(student) {
 function deleteStudent(studentId) {
   students.value = students.value.filter((student) => student.id !== studentId);
 }
+
+function editStudent(student) {
+  model.student = student;
+}
+
+const model = reactive({
+  student: {
+    name: "",
+    course: "",
+    email: "",
+    phone: "",
+  },
+});
+
+function updateStudent(student) {
+  const index = students.value.findIndex((s) => s.id === student.id);
+  if (index !== -1) {
+    student.updated_at = new Date().toISOString().split("T")[0];
+    students.value[index] = { ...student };
+  }
+
+  model.student = {
+    name: "",
+    course: "",
+    email: "",
+    phone: "",
+  };
+}
 </script>
 
 <template>
@@ -94,7 +123,7 @@ function deleteStudent(studentId) {
               <td>
                 <button
                   class="btn btn-success"
-                  @click="editStudent"
+                  @click="editStudent(student)"
                 >
                   Edit
                 </button>
@@ -108,6 +137,54 @@ function deleteStudent(studentId) {
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h4>Edit Student</h4>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="model.student.name"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="">Course</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="model.student.course"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="model.student.email"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="">Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="model.student.phone"
+          />
+        </div>
+        <div class="mb3">
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="updateStudent(model.student)"
+          >
+            Update
+          </button>
+        </div>
       </div>
     </div>
   </div>
