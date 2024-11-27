@@ -47,6 +47,10 @@ function addStudent(student) {
   student.updated_at = formattedDate;
   students.value.push(student);
 }
+
+function deleteStudent(studentId) {
+  students.value = students.value.filter((student) => student.id !== studentId);
+}
 </script>
 
 <template>
@@ -88,18 +92,18 @@ function addStudent(student) {
               <td>{{ student.phone }}</td>
               <td>{{ student.created_at }}</td>
               <td>
-                <RouterLink
+                <button
                   class="btn btn-success"
-                  :to="{ path: '/students/' + student.id + '/edit' }"
+                  @click="editStudent"
                 >
                   Edit
-                </RouterLink>
-                <RouterLink
+                </button>
+                <button
                   class="btn btn-danger"
-                  to="/"
+                  @click="deleteStudent(student.id)"
                 >
                   Delete
-                </RouterLink>
+                </button>
               </td>
             </tr>
           </tbody>
