@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive, watch } from "vue";
 import Create from "./Create.vue";
 import Edit from "./Edit.vue";
 
@@ -54,11 +54,13 @@ function deleteStudent(studentId) {
 }
 
 function editStudent(student) {
+  console.log("editing...");
   model.student = student;
 }
 
 const model = reactive({
   student: {
+    id: "",
     name: "",
     course: "",
     email: "",
@@ -74,6 +76,7 @@ function updateStudent(student) {
   }
 
   model.student = {
+    id: "",
     name: "",
     course: "",
     email: "",
@@ -187,5 +190,10 @@ function updateStudent(student) {
         </div>
       </div>
     </div>
+    <Edit
+      :student="model.student"
+      @update="updateStudent(model.student)"
+    >
+    </Edit>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, defineEmits, onMounted } from "vue";
+import { ref, reactive, defineEmits, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -8,6 +8,7 @@ const props = defineProps({
   student: {
     type: Object,
     default: () => ({
+      id: "",
       name: "",
       course: "",
       email: "",
@@ -16,11 +17,17 @@ const props = defineProps({
   },
 });
 
-const model = reactive({
-  student: { ...props.student },
-});
+// const model = reactive({
+//   student: { ...props.student },
+// });
 
 const getStudentData = (studentId) => {};
+
+function updateStudent() {
+  console.log("Updating...");
+}
+
+const emit = defineEmits(["update"]);
 </script>
 
 <template>
@@ -30,12 +37,23 @@ const getStudentData = (studentId) => {};
         <h4>Edit Student</h4>
       </div>
       <div class="card-body">
+        <div
+          class="mb-3"
+          hidden
+        >
+          <label for="">Id</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="student.id"
+          />
+        </div>
         <div class="mb-3">
           <label for="">Name</label>
           <input
             type="text"
             class="form-control"
-            v-model="model.student.name"
+            v-model.lazy="student.name"
           />
         </div>
         <div class="mb-3">
@@ -43,7 +61,7 @@ const getStudentData = (studentId) => {};
           <input
             type="text"
             class="form-control"
-            v-model="model.student.course"
+            v-model="student.course"
           />
         </div>
         <div class="mb-3">
@@ -51,7 +69,7 @@ const getStudentData = (studentId) => {};
           <input
             type="text"
             class="form-control"
-            v-model="model.student.email"
+            v-model="student.email"
           />
         </div>
         <div class="mb-3">
@@ -59,16 +77,16 @@ const getStudentData = (studentId) => {};
           <input
             type="text"
             class="form-control"
-            v-model="model.student.phone"
+            v-model="student.phone"
           />
         </div>
         <div class="mb3">
           <button
             type="button"
             class="btn btn-primary"
-            @click="saveStudent"
+            @click="$emit('update', student)"
           >
-            Save
+            Update
           </button>
         </div>
       </div>
