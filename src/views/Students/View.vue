@@ -41,6 +41,10 @@ function getStudents() {
 }
 
 function addStudent(student) {
+  student.id = students.value.length + 1;
+  const formattedDate = new Date().toISOString().split("T")[0];
+  student.created_at = formattedDate;
+  student.updated_at = formattedDate;
   students.value.push(student);
 }
 </script>
